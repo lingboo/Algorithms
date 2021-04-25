@@ -15,7 +15,10 @@ class Rectangle{
     int breadth;
 
     public:
+
+    static int num_rectangle;
     Rectangle(int l, int b){
+        num_rectangle++;
         length = l;
         breadth = b;
     }
@@ -29,10 +32,14 @@ class Rectangle{
     }
 };
 
+int Rectangle::num_rectangle = 0;
 int main(){
-    Rectangle *r = new Rectangle(20, 5);
-    //Rectangle r(20, 5);
-    cout<<r->area()<<endl;
-    free(r);
+    Rectangle *r1 = new Rectangle(40, 30);
+    cout<<Rectangle::num_rectangle<<endl;
+    cout<<r1->area()<<endl;
+    Rectangle r2(20, 5);
+    cout<<Rectangle::num_rectangle<<endl;
+    cout<<r2.area()<<endl;
+    free(r1);
     return 0;
 }

@@ -17,6 +17,13 @@ struct Rectengle{
     int breadth;
 };
 
+void fill_in_array(int *A, int n, int value){
+    for(int i=0; i<n; i++){
+        A[i] = value;
+    }
+}
+int F[20];
+
 int main(){
     //int *p = (int *) malloc(5*sizeof(int));
     //p[0] = 1; p[1] = 5; p[2] = 20; p[3] = 55; p[4] = 200;
@@ -45,5 +52,9 @@ int main(){
     cout<<p->breadth<<endl;
     cout<<p->length<<endl;
     free(p);
+
+    cout<<F[10]<<endl;
+    fill_in_array(F, 20, -1);
+    cout<<F[10]<<endl;
     return 0;
 }
