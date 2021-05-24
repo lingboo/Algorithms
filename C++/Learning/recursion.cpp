@@ -13,6 +13,23 @@ const int A[] = {4, 6, 7, 8};
 const int n = 4;
 const int k = 2;
 
+// factorial(n) = 1                if n <= 0
+//              = factorial(n-1)*n if n > 0
+//
+int factorial(int n){
+    if(n > 0){
+        return factorial(n-1)*n;
+    }
+    return 1;
+}
+
+int num_combination(int n, int k){
+    int t1 = factorial(n);
+    int t2 = factorial(k);
+    int t3 = factorial(n-k);
+    return t1/(t2*t3);
+}
+
 void fill_in_array(int *A, int value){
     int n = sizeof(*A)/sizeof(int);
     for(int i=0; i < n; i++){
@@ -20,15 +37,12 @@ void fill_in_array(int *A, int value){
     }
 }
 
-void fill_in_2darray(int (*A)[k], int value){
-    int *p;
-    cout<<sizeof(p)<<endl;
-    cout<<sizeof(A[0])<<endl;
-    cout<<*A[10]<<endl;
-    int n = sizeof(A)/sizeof(A[0]);
-    int m = sizeof(A[0])/sizeof(A[0][0]);
-    cout<<n<<endl;
-    cout<<m<<endl;
+void fill_in_2darray(int *A, int size, int value){
+    for(int i=0; i<size;i++){
+        for(int j=0; j<k;j++){
+            A[i*k+j] = value;
+        }
+    }
 }
 
 void fun1(int n){
@@ -79,15 +93,6 @@ int sum(int n){
         return sum(n-1)+n;
     }
     return 0;
-}
-// factorial(n) = 1                if n <= 0
-//              = factorial(n-1)*n if n > 0
-//
-int factorial(int n){
-    if(n > 0){
-        return factorial(n-1)*n;
-    }
-    return 1;
 }
 
 // power(m, n) = 1                 if n <= 1 
@@ -173,18 +178,40 @@ int num_pascal_triangle_combination(int n, int k){
     return num_pascal_triangle_combination(n-1, k) + num_pascal_triangle_combination(n-1, k-1);
 }
 
-int num_combination(int n, int k){
-    int t1 = factorial(n);
-    int t2 = factorial(k);
-    int t3 = factorial(n-k);
-    return t1/(t2*t3);
+void combination(int k, int left, int right, int tree_height, int a[tree_height]){
+    static int count = 0;
+    if(tree_height >= k){
+        for(int ind=0; ind<tree_height; ind++){
+            //p_comb[count] = A[a[ind]];
+        } 
+        return;
+    }
+    int j=0;
+    for(int i=left; i<right; i++){
+        a[j]=i;
+        combination(k, i+1, right, tree_height+1, a);
+        j++;
+    }
 }
 
-void combination(int * A, int ** comb, int n, int k){
-    int I[k];
-    for(int i=0; i<n; i++){
-
+void TOH(int n, char a, char b, char c){
+    if(n>0){
+        TOH(n-1, a, c, b);
+        printf("From %c to %c", a, c);
+        TOH(n-1, b, a, c);
     }
+}
+
+int fun(int n=1){
+    int x=1, k;
+    if(n==1) return x;
+    for(k=1; k<n; k++)
+        x = x + fun(k) * fun(n-k);
+    return x;
+}
+
+void test(int * c){
+    cout<<*(c+2);
 }
 
 int main(){
@@ -195,16 +222,18 @@ int main(){
     //cout<<taylor_series_reduce(n, m)<<endl;
     //fill_in_array(F, 20, -1);    
     //cout<<memoization_fib(6)<<endl;
-    int C = num_combination(n, k);
+    
+    const int C = num_combination(n, k);
     int comb[C][k];
-    int (*p_comb)[k] = comb;
-    for(int i=0; i<C; i++){
-        for(int j=0; j<k; j++){
-            comb[i][j] = i+j;
-            cout<<&comb[i][j]<<": "<<comb[i][j]<<", ";
-        }
-    }
-    cout<<p_comb[0][1]<<endl;
-    fill_in_2darray(p_comb, -1);
+    fill_in_2darray(&comb[0][0], C, 100);
+    cout<<comb[0][0]<<endl;
+    char * c;
+    int *const b = comb[0];
+    comb[1][1] = 200;
+    cout<<b[k+1]<<endl;
+
+    int A[] = {1, 3, 4};
+    test(A);
     //combination(A, comb, n, k);
+    // cout<<fun(5)<<endl;
 }
